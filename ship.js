@@ -1,20 +1,17 @@
 var warpOn = false;
-var powerTo = 'warpdrive';
+//var powerTo = 'warpdrive';
+var powerTo = 'shields';
 
-module.exports = function (alertController) {
+module.exports = function (alerter) {
     return {
-        tryJump: function () {
-            if (powerTo == 'warpdrive') {
-                alertController.shipJumping();
-            } else {
-                alertController.jumpFailed();
-            }
-        },
-        
         allocatePower: function (system) {
             powerTo = system;
-            
+
             alertController.powerChange(powerTo);
+        },
+
+        isPowered: function (system) {
+            return powerTo == system;
         }
     }
 }

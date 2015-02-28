@@ -1,7 +1,7 @@
-module.exports = function () {
-    var pilotSocket = null;
-    var engineerSocket = null;
+var pilotSocket    = null;
+var engineerSocket = null;
 
+module.exports = function (everyoneIO) {
     return {
         registerPilot: function(socket) {
             pilotSocket = socket;
@@ -11,15 +11,16 @@ module.exports = function () {
             engineerSocket = socket;
         },
 
-        failNavigation: function() {
-            pilotSocket.emit('message', {type: 'navigation error', content: 'fuck you'});
+        shipMoved: function () {
+            everyoneIO.emit('message', 'ship moved');
+        },
 
         jumpFailed: function () {
-            console.log('Jump failed: insufficient power');
+            engineerSocket.emit('message','Jump failed: insufficient power');
         },
 
         powerChange: function (system) {
-            console.log('Power is now allocated to the ' + system);
+            engineerSocket.emit('message', 'Power is now allocated to the ' + system);
         }
     }
 }

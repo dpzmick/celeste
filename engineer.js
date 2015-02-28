@@ -1,10 +1,10 @@
-module.exports = function (ship) {
+module.exports = function (model, socket) {
     return {
         handleAction: function (action) {
             var type = action.type;
 
             if (type == 'allocate') {
-                allocatePower(ship, action.system);
+                allocatePower(model.getShip(), action.system);
             }
         }
     }

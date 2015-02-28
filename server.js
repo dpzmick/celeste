@@ -7,7 +7,7 @@ var alertControllerFactory = require('./alertController.js')
 var http = require('http').Server();
 var io   = require('socket.io')(http)
 
-var alerter = alertControllerFactory(io);
+var alerter = require('./alertController.js')(io);
 var model = modelFactory(alerter);
 
 io.on('connection', function (socket) {
@@ -19,20 +19,24 @@ io.on('connection', function (socket) {
         console.log('user disconnected');
     });
 
-    socket.on('register', function (role) {
+    socket.on('register', function (role, ackFun) {
         console.log(role);
         if (role == 'pilot') {
             actor = pilotFactory(model);
-            alerter.registerPilot(socket);
+            alerter.registerPilot(actor);
+            ackFun(true);
+
         } else if (role == 'engineer') {
-            actor = engineerFactory(ship);
-            alerter.registerEngineer(socket);
+            actor = engineerFactory(model);
+            alerter.registerEngineer(actor);
+            ackFun(true);
         }
+
     });
 
-    socket.on('action', function (event) {
-        console.log('got an action');
+    socket.on('action', function (event, ackFun) {
         actor.handleAction(event);
+        ackFun(true);
     });
 });
 
