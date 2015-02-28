@@ -1,4 +1,5 @@
 var pilotFactory           = require('./pilot.js')
+var engineerFactory        = require('./engineer.js');
 var shipFactory            = require('./ship.js')
 var alertControllerFactory = require('./alertController.js')
 
@@ -22,6 +23,8 @@ io.on('connection', function (socket) {
         if (role == 'pilot') {
             actor = pilotFactory(ship);
             // alerter.registerPilot(socket);
+        } else if (role == 'engineer') {
+            actor = engineerFactory(ship);
         }
     });
 
