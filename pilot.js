@@ -9,7 +9,6 @@ module.exports = function(model) {
                 if (_.has(action, 'x') && _.has(action, 'y')) {
                     var x = action.x;
                     var y = action.y;
-                    debugger;
                     model.moveShip(x, y);
                 } else {
                     // TODO throw error

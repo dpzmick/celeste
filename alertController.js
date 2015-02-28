@@ -6,12 +6,14 @@ module.exports = function (everyoneIO) {
     everyoneSocket = everyoneIO.sockets;
 
     return {
-        registerPilot: function(socket) {
-            pilotSocket = socket;
-        },
+        registerSocketFor: function (role, socket) {
+            if (role === 'pilot') {
+                pilotSocket = socket;
+            } else if (role === 'engineer') {
+                engineerSocket = socket;
+            }
 
-        registerEngineer: function(socket) {
-            engineerSocket = socket;
+            // TODO refactor
         },
 
         shipLocationChange: function(x,y) {
