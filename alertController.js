@@ -1,7 +1,10 @@
 var pilotSocket    = null;
 var engineerSocket = null;
+var everyoneSocket = null
 
 module.exports = function (everyoneIO) {
+    everyoneSocket = everyoneIO.sockets;
+
     return {
         registerPilot: function(socket) {
             pilotSocket = socket;
@@ -13,18 +16,27 @@ module.exports = function (everyoneIO) {
 
         shipLocationChange: function(x,y) {
             var payload = {
-                'type': 'ship location change',
-                'x': x,
-                'y': y
+                type: 'ship location change',
+                x: x,
+                y: y
             };
 
-            everyoneIO.emit('message', payload);
+            everyoneSocket.emit('message', payload);
+        },
+
+        jumpSucceeded: function (msg) {
+            var payload = {
+                type: 'jump success',
+                msg: msg
+            };
+
+            pilotSocket.emit('message', payload);
         },
 
         jumpFailed: function (msg) {
             var payload = {
-                'type': 'jump failure',
-                'msg': msg
+                type: 'jump failure',
+                msg: msg
             };
 
             engineerSocket.emit('message', payload);
@@ -33,8 +45,8 @@ module.exports = function (everyoneIO) {
 
         powerChange: function (system) {
             var payload = {
-                'type': 'allocation',
-                'system': system
+                type: 'allocation',
+                system: system
             };
 
             engineerSocket.emit('message', payload);

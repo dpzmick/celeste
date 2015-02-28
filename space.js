@@ -18,6 +18,8 @@ module.exports = function (width, height, x, y, alerter) {
             _shipX = x;
             _shipY = y;
 
+            // TODO bounds checking
+
             alerter.shipLocationChange(x,y);
         }
     }

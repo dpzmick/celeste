@@ -30,7 +30,6 @@ io.on('connection', function (socket) {
             alerter.registerEngineer(socket);
             ackFun(true);
         }
-
     });
 
     socket.on('action', function (event, ackFun) {
