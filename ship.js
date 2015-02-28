@@ -7,6 +7,10 @@ module.exports = function (alerter) {
 
             alerter.powerChange(powerTo);
         },
+        
+        getPoweredSystem: function () {
+            return powerTo;  
+        },
 
         isPowered: function (system) {
             return powerTo == system;

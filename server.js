@@ -5,11 +5,16 @@ var engineerFactory        = require('./engineer.js');
 var modelFactory           = require('./gameModel.js');
 var alertControllerFactory = require('./alertController.js');
 
-var http = require('http').Server();
-var io   = require('socket.io')(http);
+var app  = require('express')();
+var http = require('http').Server(app);
+var io   = require('socket.io')(http)
 
 var alerter = require('./alertController.js')(io);
 var model = modelFactory(alerter);
+
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
 
 var roleFactories = {
     pilot:    pilotFactory,
