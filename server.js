@@ -23,12 +23,11 @@ io.on('connection', function (socket) {
         console.log(role);
         if (role == 'pilot') {
             actor = pilotFactory(model);
-            alerter.registerPilot(actor);
+            alerter.registerPilot(socket);
             ackFun(true);
-
         } else if (role == 'engineer') {
             actor = engineerFactory(model);
-            alerter.registerEngineer(actor);
+            alerter.registerEngineer(socket);
             ackFun(true);
         }
 

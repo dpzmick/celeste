@@ -5,7 +5,7 @@ module.exports = function(model) {
 
             if (type == 'navigation') {
                 var to = action.to;
-                return model.moveShip(to);
+                model.moveShip(to);
             }
         }
     }
