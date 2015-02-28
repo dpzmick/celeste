@@ -1,13 +1,14 @@
 var pilotFactory           = require('./pilot.js')
 var engineerFactory        = require('./engineer.js');
 var shipFactory            = require('./ship.js')
+var modelFactory           = require('./gameModel.js')
 var alertControllerFactory = require('./alertController.js')
 
 var http = require('http').Server();
 var io   = require('socket.io')(http)
 
 var alerter = alertControllerFactory(io);
-var ship = shipFactory(alerter);
+var model = modelFactory(alerter);
 
 io.on('connection', function (socket) {
     console.log('user connected');
@@ -21,10 +22,11 @@ io.on('connection', function (socket) {
     socket.on('register', function (role) {
         console.log(role);
         if (role == 'pilot') {
-            actor = pilotFactory(ship);
-            // alerter.registerPilot(socket);
+            actor = pilotFactory(model);
+            alerter.registerPilot(socket);
         } else if (role == 'engineer') {
             actor = engineerFactory(ship);
+            alerter.registerEngineer(socket);
         }
     });
 

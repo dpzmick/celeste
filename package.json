@@ -4,6 +4,7 @@
   "description": "celeste",
   "dependencies": {
     "socket.io": "^1.3.4",
-    "socket.io-client": "^1.3.4"
+    "socket.io-client": "^1.3.4",
+    "underscore": "^1.8.2"
   }
 }
