@@ -8,10 +8,14 @@ io2.on('message', function (msg) { console.log(msg)} );
 
 io1.emit('register', 'pilot', function (done) {
     io2.emit('register', 'engineer', function (done) {
-        io1.emit('action', {type:'navigation', to: 'blah1'}, function (res) {
-            console.log(res);
-            io1.disconnect();
-            io2.disconnect();
+        io1.emit('action', {type:'navigation', to: 'blah1'}, function (done) {
+            io2.emit('action', { type: 'allocate', system: 'warpdrive' }, function (done) {
+                io1.emit('action', {type:'navigation', to: 'blah1'}, function (res) {
+                    console.log(res);
+                    io1.disconnect();
+                    io2.disconnect();
+                });
+            });
         });
     });
 });
