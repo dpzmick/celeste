@@ -25,7 +25,7 @@ io.on('connection', function (socket) {
             actor = pilotFactory(model);
             alerter.registerPilot(socket);
         } else if (role == 'engineer') {
-            actor = engineerFactory(ship);
+            actor = engineerFactory(ship); // should engineer be able to access the ship?
             alerter.registerEngineer(socket);
         }
     });

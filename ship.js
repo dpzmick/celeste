@@ -1,13 +1,16 @@
-var warpOn = false;
 var powerTo = 'warpdrive';
 
 module.exports = function (alertController) {
     return {
-        tryJump: function () {
+        jump: function () {
+            alertController.shipJumping();
+        },
+        
+        canWarp: function () {
             if (powerTo == 'warpdrive') {
-                alertController.shipJumping();
+                return true;
             } else {
-                alertController.jumpFailed();
+                return false;
             }
         },
         

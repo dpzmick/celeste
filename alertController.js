@@ -11,8 +11,9 @@ module.exports = function () {
             engineerSocket = socket;
         },
 
-        failNavigation: function() {
+        failNavigation: function () {
             pilotSocket.emit('message', {type: 'navigation error', content: 'fuck you'});
+        },
 
         jumpFailed: function () {
             console.log('Jump failed: insufficient power');

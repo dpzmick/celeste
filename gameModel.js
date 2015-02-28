@@ -11,7 +11,7 @@ module.exports = function(alerter) {
         },
         moveShip: function(from, to) {
             if (ship.canWarp()) {
-                console.log("didn't fail");
+                console.log('warping from ' + from + ' to ' + to);
             } else {
                 alerter.failNavigation();
             }
