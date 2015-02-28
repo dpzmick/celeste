@@ -18,7 +18,7 @@ module.exports = function (everyoneIO) {
         jumpFailed: function () {
             var msg = 'jump failed, not enough resources';
             engineerSocket.emit('message', msg);
-            engineerSocket.emit('message', msg);
+            pilotSocket.emit('message', msg);
         },
 
         powerChange: function (system) {
