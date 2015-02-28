@@ -4,11 +4,16 @@ var shipFactory            = require('./ship.js')
 var modelFactory           = require('./gameModel.js')
 var alertControllerFactory = require('./alertController.js')
 
-var http = require('http').Server();
+var app  = require('express')();
+var http = require('http').Server(app);
 var io   = require('socket.io')(http)
 
 var alerter = require('./alertController.js')(io);
 var model = modelFactory(alerter);
+
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
 
 io.on('connection', function (socket) {
     console.log('user connected');
