@@ -1,19 +1,24 @@
-var planets = {};
+var _width;
+var _height;
+var _shipX;
+var _shipY;
 
-/**
- * this is literal crap
- */
-module.exports = function () {
+module.exports = function (width, height, x, y, alerter) {
+    _width = width;
+    _height = height;
+    _shipX = x;
+    _shipY = y;
+
     return {
-        addPlanet: function(planetName) {
-            planets[planetName] = null;
-        },
-        putShipAt: function (ship, planetName) {
-            // TODO check that planet exists
-            planets[planetName] = ship;
-        },
-        removeShipAt: function (planetName) {
-            planets[planetName] = null;
+        getShipX: function () { return _shipX; },
+
+        getShipY: function () { return _shipY; },
+
+        moveShipTo: function (x, y) {
+            _shipX = x;
+            _shipY = y;
+
+            alerter.shipLocationChange(x,y);
         }
     }
 }

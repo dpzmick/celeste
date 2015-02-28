@@ -11,18 +11,33 @@ module.exports = function (everyoneIO) {
             engineerSocket = socket;
         },
 
-        shipMoved: function () {
-            everyoneIO.emit('message', 'ship moved');
+        shipLocationChange: function(x,y) {
+            var payload = {
+                'type': 'ship location change',
+                'x': x,
+                'y': y
+            };
+
+            everyoneIO.emit('message', payload);
         },
 
-        jumpFailed: function () {
-            var msg = 'jump failed, not enough resources';
-            engineerSocket.emit('message', msg);
-            pilotSocket.emit('message', msg);
+        jumpFailed: function (msg) {
+            var payload = {
+                'type': 'jump failure',
+                'msg': msg
+            };
+
+            engineerSocket.emit('message', payload);
+            pilotSocket.emit('message', payload);
         },
 
         powerChange: function (system) {
-            engineerSocket.emit('message', 'Power is now allocated to the ' + system);
+            var payload = {
+                'type': 'allocation',
+                'system': system
+            };
+
+            engineerSocket.emit('message', payload);
         }
     }
 }
