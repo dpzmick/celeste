@@ -1,0 +1,12 @@
+{
+    "libs": [
+        "socket.io"
+    ],
+    "plugins": {
+        "node": {},
+        "requirejs": {
+            "baseurl": "./",
+            "paths": {}
+        }
+    }
+}
