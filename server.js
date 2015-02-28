@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var pilotFactory           = require('./pilot.js');
 var engineerFactory        = require('./engineer.js');
 var modelFactory           = require('./gameModel.js');
@@ -14,25 +16,41 @@ var roleFactories = {
     engineer: engineerFactory,
 };
 
-var roles = {
-    pilot:    null,
-    engineer: null,
-};
+var checkValidRole = function (role) {
+    return _.has(roleFactories, role);
+}
+
+var checkRoleTaken = function (role) {
+    return _.has(roles, role);
+}
 
 var attemptRegisterRole = function (role, socket) {
-    var factory = roleFactories[role];
-    if (roles[role] === null) {
-        roles[role] = factory(model);
-        alerter.registerSocketFor(role, socket)
-        socketData[socket.id] = role;
-
-        console.log('registered new ' + role);
-        return roles[role].getInitialStateData();
-    } else {
-        // this is already registered
-        console.log(role + ' is already registered');
-        return false;
+    if (!checkValidRole(role)) {
+        console.log('invalid role ' + role)
+        return {
+            error: true,
+            msg: 'invalid role',
+            role: role
+        }
     }
+
+    if (checkRoleTaken(role)) {
+        console.log('role ' + role + ' already taken');
+        return {
+            error: true,
+            msg: 'role taken',
+            role: role,
+        }
+    }
+
+    roles[role] = roleFactories[role](model);
+    alerter.registerSocketFor(role, socket)
+    socketData[socket.id] = role;
+    alerter.someoneRegistered(role);
+
+    console.log('role ' + role + ' has been claimed');
+
+    return roles[role].getInitialStateData();
 }
 
 var makeRegisterFunction = function(socket) {
@@ -44,10 +62,11 @@ var makeRegisterFunction = function(socket) {
 
 var makeDisconnectFunction = function (socket) {
     return function () {
-        var role = socketData[socket.id];
-        if (role !== undefined) {
-            socketData[socket.id] = null;
-            roles[role] = null;
+        if (_.has(socketData, socket.id)) {
+            var role = socketData[socket.id];
+            delete socketData[socket.id];
+            delete roles[role];
+
             console.log(role + ' disconnected');
         } else {
             console.log('someone with no role disconnected');
@@ -56,6 +75,7 @@ var makeDisconnectFunction = function (socket) {
 }
 
 var socketData = {};
+var roles = {};
 io.on('connection', function (socket) {
     console.log('user connected');
 

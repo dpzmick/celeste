@@ -10,16 +10,16 @@ var locationMsg = {
     y: 100,
 }
 
-io1.on('message', function (msg) { console.log(msg)} );
-io2.on('message', function (msg) { console.log(msg)} );
+io1.on('message', function (msg) { console.log('io1:'); console.log(msg); });
+io2.on('message', function (msg) { console.log('io2:'); console.log(msg); });
 
 io1.emit('register', 'pilot', function (success) {
     console.log(success);
     io2.emit('register', 'pilot', function (success) {
-        if (success != false) {
-            console.log('test failed');
-        } else {
+        if (success.error == true) {
             console.log('test passed');
+        } else {
+            console.log('test failed');
         }
 
         io1.disconnect();

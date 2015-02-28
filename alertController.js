@@ -16,6 +16,15 @@ module.exports = function (everyoneIO) {
             // TODO refactor
         },
 
+        someoneRegistered: function (role) {
+            var payload = {
+                type: 'new registration',
+                role: role,
+            };
+
+            everyoneSocket.emit('message', payload);
+        },
+
         shipLocationChange: function(x,y) {
             var payload = {
                 type: 'ship location change',
