@@ -18,7 +18,15 @@ module.exports = function(model) {
         },
 
         getInitialStateData: function () {
-            return {my: 'initial', state: 'goes here'};
+            var space = model.getSpace();
+            var ship  = model.getShip();
+            
+            var shipX = space.getShipX();
+            var shipY = space.getShipY();
+            
+            var powered = ship.getPoweredSystem();
+            
+            return { locationX: shipY, locationY: shipY, poweredSystem: powered };
         }
     }
 }

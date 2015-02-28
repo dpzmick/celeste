@@ -7,12 +7,36 @@
         </style>
     </head>
     <body>
-        <button>Pilot</button>
-        <button>Engineer</button>
+        <div class="register">
+            <button id="register-pilot" value="pilot">Pilot</button>
+            <button id="register-engineer" value="engineer">Engineer</button>
+        </div>
+        <section hidden class="pilot-console">
+        </section>
+        <section hidden class="engineer-console">
+            Hey there
+        </section>
+        <div class="error" style="color: red;">
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
             var socket = io();
+            
+            $('.register button').click(function() {
+                var role = $(this).val();
+                console.log(role);
+                
+                socket.emit('register', role, function (done) {
+                    console.log(done);
+                    
+                    if (done) {
+                        $('.register').slideUp();
+                        $('.' + role + '-console').slideDown();
+                    } else {
+                        $('.error').text(role + " is already registered!");
+                    }
+                });
+            });
         </script>
     </body>
 </html>

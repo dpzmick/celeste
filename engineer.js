@@ -12,6 +12,14 @@ module.exports = function (model, socket) {
                     console.log('learn to throw an error');
                 }
             }
+        },
+        
+        getInitialStateData: function () {
+            var ship = model.getShip();
+            
+            var powered = ship.getPoweredSystem();
+            
+            return { poweredSystem: powered };
         }
     }
 }
