@@ -1,11 +1,18 @@
 module.exports = function () {
+    var pilotSocket = null;
+    var engineerSocket = null;
+
     return {
-        shipJumping: function () {
-            console.log('ship jumping');
+        registerPilot: function(socket) {
+            pilotSocket = socket;
         },
-        
-        powerChange: function (system) {
-            console.log('Power is now allocated to the ' + system);
+
+        registerEngineer: function(socket) {
+            engineerSocket = socket;
+        },
+
+        failNavigation: function() {
+            pilotSocket.emit('message', {type: 'navigation error', content: 'fuck you'});
         }
     }
 }

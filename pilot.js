@@ -1,10 +1,11 @@
-module.exports = function(ship) {
+module.exports = function(model) {
     return {
         handleAction: function (action) {
             var type = action.type;
 
             if (type == 'navigation') {
-                console.log('navigate to: ' + action.place);
+                var to = action.to;
+                model.moveShip(to);
             }
         }
     }
