@@ -5,7 +5,7 @@ module.exports = function (alerter) {
         allocatePower: function (system) {
             powerTo = system;
 
-            alertController.powerChange(powerTo);
+            alerter.powerChange(powerTo);
         },
 
         isPowered: function (system) {

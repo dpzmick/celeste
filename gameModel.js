@@ -4,7 +4,7 @@ module.exports = function(alerter) {
     return {
         moveShip: function(to) {
             if (ship.isPowered('warpdrive')){
-                alerter.jumpSucceeded();
+                alerter.shipMoved();
             } else {
                 alerter.jumpFailed();
             }
