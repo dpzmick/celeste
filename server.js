@@ -27,7 +27,7 @@ var attemptRegisterRole = function (role, socket) {
         socketData[socket.id] = role;
 
         console.log('registered new ' + role);
-        return true;
+        return roles[role].getInitialStateData();
     } else {
         // this is already registered
         console.log(role + ' is already registered');

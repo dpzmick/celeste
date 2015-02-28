@@ -15,6 +15,10 @@ module.exports = function(model) {
                     console.log('learn to thrown an error');
                 }
             }
+        },
+
+        getInitialStateData: function () {
+            return {my: 'initial', state: 'goes here'};
         }
     }
 }
