@@ -1,6 +1,7 @@
 {
     "libs": [
-        "socket.io"
+        "socket.io",
+        "should"
     ],
     "plugins": {
         "node": {},
