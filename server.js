@@ -29,11 +29,15 @@ var checkRoleTaken = function (role) {
     return _.has(roles, role);
 }
 
+var checkSocketHasRole = function (socket) {
+    return _.has(socketData, socket.id);
+}
+
 var attemptRegisterRole = function (role, socket) {
     if (!checkValidRole(role)) {
         console.log('invalid role ' + role)
         return {
-            error: true,
+            type: 'error',
             msg: 'invalid role',
             role: role
         }
@@ -42,7 +46,7 @@ var attemptRegisterRole = function (role, socket) {
     if (checkRoleTaken(role)) {
         console.log('role ' + role + ' already taken');
         return {
-            error: true,
+            type: 'error',
             msg: 'role taken',
             role: role,
         }
@@ -91,9 +95,18 @@ io.on('connection', function (socket) {
     socket.on('register', myRegister);
 
     socket.on('action', function (action, ackFun) {
-        var role = socketData[socket.id];
-        roles[role].handleAction(action);
-        ackFun(true);
+        console.log('called');
+        if (!checkSocketHasRole(socket)) {
+            var payload = {
+                type: 'error',
+                msg: 'this client has not registered',
+            };
+            ackFun(payload);
+        } else {
+            var role = socketData[socket.id];
+            roles[role].handleAction(action);
+            ackFun(true);
+        }
     });
 });
 

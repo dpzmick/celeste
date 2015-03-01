@@ -1,0 +1,1 @@
+> Specify all types of messages explicity

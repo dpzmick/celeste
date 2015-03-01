@@ -1,19 +1,32 @@
+var _ = require('underscore');
+
 var pilotSocket    = null;
 var engineerSocket = null;
 var everyoneSocket = null
+var roles = {};
+
+var sendMessageTo = function (role, payload) {
+    if (role === 'everyone') {
+        everyoneSocket.emit('message', payload);
+    } else {
+        if (_.has(roles, role)) {
+            roles[role].emit('message', payload);
+        } else {
+            console.log('server trying to send message to role for which it does not know how (' + role + ')');
+        }
+    }
+}
+
+var sendMessageToAll = function (roles, payload) {
+    roles.map(_.partial(sendMessageTo,_,payload));
+}
 
 module.exports = function (everyoneIO) {
     everyoneSocket = everyoneIO.sockets;
 
     return {
         registerSocketFor: function (role, socket) {
-            if (role === 'pilot') {
-                pilotSocket = socket;
-            } else if (role === 'engineer') {
-                engineerSocket = socket;
-            }
-
-            // TODO refactor
+            roles[role] = socket;
         },
 
         someoneRegistered: function (role) {
@@ -22,7 +35,7 @@ module.exports = function (everyoneIO) {
                 role: role,
             };
 
-            everyoneSocket.emit('message', payload);
+            sendMessageTo('everyone', payload);
         },
 
         shipLocationChange: function(x,y) {
@@ -32,7 +45,7 @@ module.exports = function (everyoneIO) {
                 y: y
             };
 
-            everyoneSocket.emit('message', payload);
+            sendMessageTo('everyone', payload);
         },
 
         jumpSucceeded: function (msg) {
@@ -41,7 +54,7 @@ module.exports = function (everyoneIO) {
                 msg: msg
             };
 
-            pilotSocket.emit('message', payload);
+            sendMessageTo('pilot', payload);
         },
 
         jumpFailed: function (msg) {
@@ -50,8 +63,7 @@ module.exports = function (everyoneIO) {
                 msg: msg
             };
 
-            engineerSocket.emit('message', payload);
-            pilotSocket.emit('message', payload);
+            sendMessageToAll(['engineer', 'pilot'], payload);
         },
 
         powerChange: function (system) {
@@ -60,7 +72,7 @@ module.exports = function (everyoneIO) {
                 system: system
             };
 
-            engineerSocket.emit('message', payload);
+            sendMessageTo('engineer', payload);
         }
     }
 }
