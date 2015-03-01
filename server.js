@@ -105,7 +105,10 @@ io.on('connection', function (socket) {
         } else {
             var role = socketData[socket.id];
             roles[role].handleAction(action);
-            ackFun(true);
+
+            if (typeof ackFun !== 'undefined' && ackFun) {
+                ackFun(true);
+            }
         }
     });
 });

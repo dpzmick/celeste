@@ -58,16 +58,22 @@ exports.testWithoutEngineer = function (test) {
         y: 100,
     };
 
-    var client1 = io.connect(socketURL, options);
+    var sentAction = false;
 
+    var client1 = io.connect(socketURL, options);
     client1.on('connect', function (data) {
         client1.emit('register', 'pilot', function (res) {
             test.ok(res.type !== 'error'); // shouldn't have failed
-
-            client1.emit('action', navigationAction, function (done) {
-                client1.disconnect();
-                test.done();
-            })
+            client1.emit('action', navigationAction);
+            sentAction = true;
         })
-    })
+    });
+
+    client1.on('message', function (message) {
+        if (sentAction) {
+            test.ok(message.type === 'error');
+            client1.disconnect();
+            test.done();
+        }
+    });
 }

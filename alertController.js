@@ -59,7 +59,8 @@ module.exports = function (everyoneIO) {
 
         jumpFailed: function (msg) {
             var payload = {
-                type: 'jump failure',
+                type: 'error',
+                subType: 'jump error',
                 msg: msg
             };
 
