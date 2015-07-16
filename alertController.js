@@ -1,8 +1,8 @@
 var _ = require('underscore');
 
-var pilotSocket    = null;
-var engineerSocket = null;
-var everyoneSocket = null
+// var pilotSocket    = null;
+// var engineerSocket = null;
+var everyoneSocket = null;
 var roles = {};
 
 var sendMessageTo = function (role, payload) {

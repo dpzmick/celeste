@@ -16,7 +16,7 @@ io2.on('message', function (msg) { console.log('io2:'); console.log(msg); });
 io1.emit('register', 'pilot', function (success) {
     console.log(success);
     io2.emit('register', 'pilot', function (success) {
-        if (success.error == true) {
+        if (success.type == "error") {
             console.log('test passed');
         } else {
             console.log('test failed');

@@ -4,14 +4,21 @@
         <title>Celeste</title>
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
+            .pilot-console h3 { background-color: red; }
+            .pilot-console h3.powered { background-color: green; }
         </style>
     </head>
     <body>
         <div class="register">
+            Register as role:
             <button id="register-pilot" value="pilot">Pilot</button>
             <button id="register-engineer" value="engineer">Engineer</button>
         </div>
         <section hidden class="pilot-console">
+            <h3>Warp Drive Power</h3><br>
+            <label for="ship-x">X</label><input type="text" id="ship-x"></input>
+            <label for="ship-y">Y</label><input type="text" id="ship-y"></input>
+            <button class="move-ship">Move Ship</button>
         </section>
         <section hidden class="engineer-console">
             Hey there
@@ -29,13 +36,24 @@
                 socket.emit('register', role, function (done) {
                     console.log(done);
                     
-                    if (done) {
+                    if (done.type && done.type == "error") {
+                        $('.error').text(role + " is already registered!");
+                    } else {
                         $('.register').slideUp();
                         $('.' + role + '-console').slideDown();
-                    } else {
-                        $('.error').text(role + " is already registered!");
                     }
                 });
+            });
+
+            socket.on('message', function(msg) {
+                console.log(msg);
+            });
+
+            $('.move-ship').click(function() {
+                var x = $('.ship-x').val(),
+                    y = $('.ship-y').val();
+                console.log(x, y);
+                socket.emit('action', {type:'navigation', x:x, y:y});
             });
         </script>
     </body>

@@ -7,9 +7,7 @@ module.exports = function(model) {
 
             if (type == 'navigation') {
                 if (_.has(action, 'x') && _.has(action, 'y')) {
-                    var x = action.x;
-                    var y = action.y;
-                    model.moveShip(x, y);
+                    model.moveShip(action.x, action.y);
                 } else {
                     // TODO throw error
                     console.log('learn to thrown an error');
