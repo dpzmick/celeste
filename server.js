@@ -5,6 +5,7 @@ var engineerFactory        = require('./engineer.js');
 var modelFactory           = require('./gameModel.js');
 var alertControllerFactory = require('./alertController.js');
 
+var express = require('express');
 var app  = require('express')();
 var http = require('http').Server(app);
 var io   = require('socket.io')(http)
@@ -15,6 +16,8 @@ var model = modelFactory(alerter);
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
+
+app.use(express.static(__dirname + '/public'));
 
 var roleFactories = {
     pilot:    pilotFactory,
@@ -52,7 +55,7 @@ var attemptRegisterRole = function (role, socket) {
         }
     }
 
-    roles[role] = roleFactories[role](model);
+    roles[role] = roleFactories[role](model); 
     alerter.registerSocketFor(role, socket)
     socketData[socket.id] = role;
     alerter.someoneRegistered(role);

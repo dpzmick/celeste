@@ -73,7 +73,7 @@ module.exports = function (everyoneIO) {
                 system: system
             };
 
-            sendMessageTo('engineer', payload);
+            sendMessageToAll(['engineer', 'pilot'], payload);
         }
     }
 }
