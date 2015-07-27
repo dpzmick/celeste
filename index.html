@@ -28,20 +28,19 @@
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
             var socket = io();
-            
+
             $('.register button').click(function() {
                 var role = $(this).val();
                 console.log(role);
-                
-                socket.emit('register', role, function (done) {
-                    console.log(done);
-                    
-                    if (done.type && done.type == "error") {
+
+                socket.emit('register', role, function (err, initialState) {
+                    if (err) {
                         $('.error').text(role + " is already registered!");
-                    } else {
-                        $('.register').slideUp();
-                        $('.' + role + '-console').slideDown();
+                        return err;
                     }
+
+                    $('.register').slideUp();
+                    $('.' + role + '-console').slideDown();
                 });
             });
 
@@ -52,6 +51,7 @@
             $('.move-ship').click(function() {
                 var x = $('.ship-x').val(),
                     y = $('.ship-y').val();
+
                 console.log(x, y);
                 socket.emit('action', {type:'navigation', x:x, y:y});
             });
