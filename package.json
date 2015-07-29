@@ -2,6 +2,10 @@
   "name": "celeste",
   "version": "0.0.1",
   "description": "celeste",
+  "scripts": {
+      "test": "mocha --recursive tests/ --reporter dot",
+      "wtest": "mocha --recursive tests/ --reporter dot -w"
+  },
   "dependencies": {
     "express": "^4.13.1",
     "lodash": "^3.10.0",
