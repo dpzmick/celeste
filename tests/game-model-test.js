@@ -15,7 +15,6 @@ var Model     = require('../lib/game-model.js');
 // @lawrence this is an excellent example of why dependency injections is a nice
 // thing
 describe('model', function () {
-    // lots of mocks needed here, maybe this code needs to be simplified
     var alerter = Object.create(Alerter.prototype);
     var ship    = new Ship(alerter);
     var space   = new Space(alerter);
@@ -24,6 +23,11 @@ describe('model', function () {
     var shipMock    = sinon.mock(ship);
     var spaceMock   = sinon.mock(space);
     var model       = new Model(alerter, ship, space);
+
+    afterEach(function () {
+        shipMock.restore();
+        spaceMock.restore();
+    });
 
     describe('moveShip', function () {
         it('should move the current ship to the given coordinates, when warp drive is engaged', function () {
@@ -41,6 +45,16 @@ describe('model', function () {
                 spaceMock.verify();
             });
         });
-    });
 
+        it('should throw an ALLOCATION_ERROR if the warpdrive is not active', function () {
+            // pretend the ship does not have warp drive enabled
+            shipMock.expects('isPowered').once().withExactArgs('warpdrive').returns(false);
+
+            var promise = model.moveShip(10, 10);
+            return promise.should.be.rejected.then(function (error) {
+                error.should.have.property('name').that.equals('GameError');
+                error.should.have.property('code').that.equals(GameError.codes.ALLOCATION_ERROR);
+            });
+        });
+    });
 });
