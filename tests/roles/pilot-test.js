@@ -32,16 +32,21 @@ describe('pilot', function () {
     });
 
     describe('handleAction', function () {
-        it('should return UNHANDLED_ACTION if the action doesn\'t exist for Pilot', function () {
+        describe('unhandled action', function () {
             var action = { type: 'NOT_REAL' };
-
             var p = new Pilot(model);
-            var promise = p.handleAction(action);
 
-            promise.should.eventually.have.property('name', 'GameError');
-            promise.should.eventually.have.property('code', GameError.codes.UNHANDLED_ACTION);
+            it('should be rejected with a GameError', function () {
+                var promise = p.handleAction(action);
+                return promise.should.eventually.be.rejected.and.have.property('name', 'GameError');
+            });
 
-            return promise.should.eventually.be.rejected;
+            it('should be a rejected with the right code', function () {
+                var promise = p.handleAction(action);
+
+                return promise.should.eventually.be.rejected
+                       .and.have.property('code', GameError.codes.UNHANDLED_ACTION);
+            });
         });
 
         describe('navigation action', function () {
