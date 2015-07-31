@@ -20,6 +20,7 @@
     "chai": "^3.1.0",
     "chai-as-promised": "^5.1.0",
     "istanbul": "^0.3.17",
+    "istanbul-coveralls": "^1.0.3",
     "mocha": "^2.2.5",
     "mocha-multi": "^0.7.1",
     "mocha-osx-reporter": "^0.1.2",
