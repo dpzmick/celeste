@@ -27,6 +27,10 @@ describe('pilot', function () {
         testCommon.checkRoleInterface(new Pilot(model));
     });
 
+    it('should follow the actor uuid rules', function () {
+        testCommon.checkRoleUUID(Pilot);
+    });
+
     describe('handleAction', function () {
         it('should return UNHANDLED_ACTION if the action doesn\'t exist for Pilot', function () {
             var action = { type: 'NOT_REAL' };
