@@ -7,10 +7,10 @@ chai.use(chaiAsPromised);
 var sinon  = require('sinon');
 var Q      = require('q');
 
-var GameError = require('../lib/errors/game-error.js');
-var Pilot      = require('../lib/pilot.js');
-var Model      = require('../lib/game-model.js');
-var testCommon = require('./test-common.js');
+var GameError  = require('../../lib/errors/game-error.js');
+var Pilot      = require('../../lib/roles/pilot.js');
+var Model      = require('../../lib/game-model.js');
+var testCommon = require('../test-common.js');
 
 describe('pilot', function () {
     // to avoid creating a real Model we will use Object.create on the prototype
