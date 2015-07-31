@@ -1,6 +1,7 @@
 Project Celeste
 ===============
 [![Build Status](https://travis-ci.org/dpzmick/celeste.svg?branch=refactor)](https://travis-ci.org/dpzmick/celeste)
+[![Coverage Status](https://coveralls.io/repos/dpzmick/celeste/badge.svg?branch=refactor&service=github)](https://coveralls.io/github/dpzmick/celeste?branch=refactor)
 
 #### Backend
 To develop:
