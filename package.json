@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "description": "celeste",
   "scripts": {
-      "test": "mocha --recursive tests/ --reporter dot",
-      "wtest": "mocha --recursive tests/ --reporter dot -w"
+    "test": "mocha --recursive tests/ --reporter dot",
+    "wtest": "mocha --recursive tests/ --reporter dot -w"
   },
   "dependencies": {
     "express": "^4.13.1",
     "lodash": "^3.10.0",
+    "node-uuid": "^1.4.3",
     "q": "^1.2.0",
     "socket.io": "^1.3.4",
     "socket.io-client": "^1.3.4"
