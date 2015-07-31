@@ -32,20 +32,14 @@ describe('pilot', function () {
     });
 
     describe('handleAction', function () {
-        describe('unhandled action', function () {
+        it('should reject with UNHANDLED_ACTION when the action is not handled', function () {
             var action = { type: 'NOT_REAL' };
             var p = new Pilot(model);
+            var promise = p.handleAction(action);
 
-            it('should be rejected with a GameError', function () {
-                var promise = p.handleAction(action);
-                return promise.should.eventually.be.rejected.and.have.property('name', 'GameError');
-            });
-
-            it('should be a rejected with the right code', function () {
-                var promise = p.handleAction(action);
-
-                return promise.should.eventually.be.rejected
-                       .and.have.property('code', GameError.codes.UNHANDLED_ACTION);
+            return promise.should.eventually.be.rejected.then(function (error) {
+                error.should.have.property('name').that.equals('GameError');
+                error.should.have.property('code').that.equals(GameError.codes.UNHANDLED_ACTION);
             });
         });
 
@@ -80,12 +74,10 @@ describe('pilot', function () {
                 // statements (see chai issue #72)
                 var promise = p.handleAction(action);
 
-                promise.should.eventually.have.property('name', 'GameError');
-                promise.should.eventually.have.property('code', GameError.codes.MALFORMED_ACTION);
-
-                // return the rejection last so that the error doesn't bubble
-                // back up
-                return promise.should.eventually.be.rejected;
+                return promise.should.eventually.be.rejected.then(function (error) {
+                    error.should.have.property('name').that.equals('GameError');
+                    error.should.have.property('code').that.equal(GameError.codes.MALFORMED_ACTION);
+                });
             });
 
             it('should return MALFORMED_ACTION if the action is missing an y coordinate', function () {
@@ -98,12 +90,13 @@ describe('pilot', function () {
                 // statements (see chai issue #72)
                 var promise = p.handleAction(action);
 
-                promise.should.eventually.have.property('name', 'GameError');
-                promise.should.eventually.have.property('code', GameError.codes.MALFORMED_ACTION);
 
                 // return the rejection last so that the error doesn't bubble
                 // back up
-                return promise.should.eventually.be.rejected;
+                return promise.should.eventually.be.rejected.then(function (error) {
+                    error.should.have.property('name').that.equals('GameError');
+                    error.should.have.property('code').that.equals(GameError.codes.MALFORMED_ACTION);
+                });
             });
         });
     });
