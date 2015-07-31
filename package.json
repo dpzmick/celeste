@@ -5,7 +5,8 @@
   "scripts": {
     "test": "mocha --recursive tests/ --reporter dot",
     "wtest": "mocha --recursive tests/ --reporter dot -w",
-    "coverage": "istanbul cover _mocha -- --recursive tests/ --reporter dot && istanbul-coveralls"
+    "coverage": "istanbul cover _mocha -- --recursive tests/ --reporter dot",
+    "coveralls": "istanbul cover _mocha -- --recursive tests/ --reporter dot && istanbul-coveralls --no-rm"
   },
   "dependencies": {
     "express": "^4.13.1",
