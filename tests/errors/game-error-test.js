@@ -35,6 +35,7 @@ describe('GameError', function () {
             codes.should.have.property('INVALID_ROLE');
             codes.should.have.property('ROLE_TAKEN');
             codes.should.have.property('MALFORMED_ACTION');
+            codes.should.have.property('ALLOCATION_ERROR');
         });
     });
 });
