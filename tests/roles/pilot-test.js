@@ -7,13 +7,18 @@ chai.use(chaiAsPromised);
 var sinon  = require('sinon');
 var Q      = require('q');
 
-var GameError  = require('../../lib/errors/game-error.js');
-var Pilot      = require('../../lib/roles/pilot.js');
-var Model      = require('../../lib/game-model.js');
 var testCommon = require('../test-common.js');
+var GameError  = require('../../lib/errors/game-error.js');
+
+var Pilot      = require('../../lib/roles/pilot.js');
+
+var Model      = require('../../lib/game-model.js');
+var Ship       = require('../../lib/model-entities/ship.js');
 
 describe('pilot', function () {
     // to avoid creating a real Model we will use Object.create on the prototype
+    // this means that, if we use something like getShip on this model, the ship
+    // will be undefined, so we will need to mock the behavior of getShip, etc.
     var model = Object.create(Model.prototype);
 
     // create a mock for the model
@@ -98,6 +103,24 @@ describe('pilot', function () {
                     error.should.have.property('code').that.equals(GameError.codes.MALFORMED_ACTION);
                 });
             });
+        });
+    });
+
+    describe('getInitialStateData', function () {
+        it('should return JSON containing the current ship\'s uuid', function () {
+            var uuid = '10';
+            var realShip = new Ship();
+            var shipMock = sinon.mock(realShip);
+
+            mock.expects('getShip').once().returns(realShip);
+            shipMock.expects('getUUID').once().returns(uuid);
+
+            var p = new Pilot(model);
+            var state = p.getInitialStateData();
+
+            state.should.have.property('ship').that.equals(uuid);
+            mock.verify();
+            shipMock.verify();
         });
     });
 });

@@ -7,10 +7,11 @@ var sinon   = require('sinon');
 var Q       = require('q');
 
 var GameError = require('../lib/errors/game-error.js');
-var Ship      = require('../lib/ship.js');
-var Space     = require('../lib/space.js');
 var Alerter   = require('../lib/alerter.js');
 var Model     = require('../lib/game-model.js');
+
+var Ship      = require('../lib/model-entities/ship.js');
+var Space     = require('../lib/model-entities/space.js');
 
 // @lawrence this is an excellent example of why dependency injections is a nice
 // thing
