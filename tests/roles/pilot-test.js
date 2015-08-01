@@ -1,4 +1,3 @@
-// not using assert style because it is easier to chain expectations with should
 var chai           = require('chai');
 var should         = chai.should(); // eslint-disable-line no-unused-vars
 var chaiAsPromised = require('chai-as-promised');
@@ -13,7 +12,6 @@ var GameError  = require('../../lib/errors/game-error.js');
 var Pilot      = require('../../lib/roles/pilot.js');
 
 var Model      = require('../../lib/game-model.js');
-var Ship       = require('../../lib/model-entities/ship.js');
 
 describe('pilot', function () {
     // to avoid creating a real Model we will use Object.create on the prototype
