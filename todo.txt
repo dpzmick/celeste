@@ -1,3 +1,0 @@
-> Specify all types of messages explicity
-> All error handling should be done in one place
->> currently, the pilot class checks for one error in navigation and gameModel checks for other error

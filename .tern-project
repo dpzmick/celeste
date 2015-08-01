@@ -1,7 +1,8 @@
 {
     "libs": [
         "socket.io",
-        "should"
+        "chai",
+        "ecma6"
     ],
     "plugins": {
         "node": {},
