@@ -53,7 +53,12 @@
                     y = $('.ship-y').val();
 
                 console.log(x, y);
-                socket.emit('action', {type:'navigation', x:x, y:y});
+                socket.emit('action', {type:'navigation', x:x, y:y}, function (error) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    console.log('successful move');
+                });
             });
         </script>
     </body>
