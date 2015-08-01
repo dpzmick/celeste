@@ -18,20 +18,14 @@ var Space     = require('../lib/model-entities/space.js');
 describe('model', function () {
     var alerter = Object.create(Alerter.prototype);
     var ship    = new Ship(alerter);
-    var space   = new Space(alerter);
-
-    // var alerterMock = sinon.mock(alerter);
-    var shipMock    = sinon.mock(ship);
-    var spaceMock   = sinon.mock(space);
-    var model       = new Model(alerter, ship, space);
-
-    afterEach(function () {
-        shipMock.restore();
-        spaceMock.restore();
-    });
+    var space   = new Space(10, 10, 0, 0, alerter);
+    var model   = new Model(alerter, ship, space);
 
     describe('moveShip', function () {
         it('should move the current ship to the given coordinates, when warp drive is engaged', function () {
+            var shipMock  = sinon.mock(ship);
+            var spaceMock = sinon.mock(space);
+
             var x = 10;
             var y = 10;
 
@@ -48,6 +42,8 @@ describe('model', function () {
         });
 
         it('should throw an ALLOCATION_ERROR if the warpdrive is not active', function () {
+            var shipMock = sinon.mock(ship);
+
             // pretend the ship does not have warp drive enabled
             shipMock.expects('isPowered').once().withExactArgs('warpdrive').returns(false);
 
@@ -55,7 +51,32 @@ describe('model', function () {
             return promise.should.be.rejected.then(function (error) {
                 error.should.have.property('name').that.equals('GameError');
                 error.should.have.property('code').that.equals(GameError.codes.ALLOCATION_ERROR);
+                shipMock.verify();
             });
+        });
+
+    });
+
+    describe('getInitialStateData', function () {
+        it('should provide the information any role needs when starting the game', function () {
+            var shipMock  = sinon.mock(ship);
+            var spaceMock = sinon.mock(space);
+
+            var powered = 'cat system';
+            var x       = 10;
+            var y       = 10;
+
+            spaceMock.expects('getShipX').once().returns(x);
+            spaceMock.expects('getShipY').once().returns(y);
+            shipMock.expects('getPoweredSystem').once().returns(powered);
+
+            var data = model.getInitialStateData();
+            data.should.have.property('shipX').that.equals(x);
+            data.should.have.property('shipY').that.equals(y);
+            data.should.have.property('poweredSystem').that.equals(powered);
+
+            shipMock.verify();
+            spaceMock.verify();
         });
     });
 });

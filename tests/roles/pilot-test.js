@@ -105,22 +105,4 @@ describe('pilot', function () {
             });
         });
     });
-
-    describe('getInitialStateData', function () {
-        it('should return JSON containing the current ship\'s uuid', function () {
-            var uuid = '10';
-            var realShip = new Ship();
-            var shipMock = sinon.mock(realShip);
-
-            mock.expects('getShip').once().returns(realShip);
-            shipMock.expects('getUUID').once().returns(uuid);
-
-            var p = new Pilot(model);
-            var state = p.getInitialStateData();
-
-            state.should.have.property('ship').that.equals(uuid);
-            mock.verify();
-            shipMock.verify();
-        });
-    });
 });

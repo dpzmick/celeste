@@ -89,12 +89,5 @@ describe('Engineer', function () {
                 });
             });
         });
-
-        describe('getInitialStateData', function () {
-            it('should return an empty object', function () {
-                var e = new Engineer(model);
-                return e.getInitialStateData().should.be.empty;
-            });
-        });
     });
 });
