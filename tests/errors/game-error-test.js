@@ -36,6 +36,7 @@ describe('GameError', function () {
             codes.should.have.property('ROLE_TAKEN');
             codes.should.have.property('MALFORMED_ACTION');
             codes.should.have.property('ALLOCATION_ERROR');
+            codes.should.have.property('OUT_OF_BOUNDS');
         });
     });
 });

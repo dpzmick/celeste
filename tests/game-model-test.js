@@ -18,7 +18,7 @@ var Space     = require('../lib/model-entities/space.js');
 describe('model', function () {
     var alerter = Object.create(Alerter.prototype);
     var ship    = new Ship(alerter);
-    var space   = new Space(10, 10, 0, 0, alerter);
+    var space   = new Space(10, 10, alerter);
     var model   = new Model(alerter, ship, space);
 
     describe('moveShip', function () {
