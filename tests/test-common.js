@@ -23,8 +23,9 @@ module.exports.checkRoleInterface = function (obj) {
  * Check (sort of) that the UUID thing works
  */
 module.exports.checkRoleUUID = function (Constructor) {
-    var o1 = new Constructor();
-    var o2 = new Constructor();
+    // empty model (works for now)
+    var o1 = new Constructor({});
+    var o2 = new Constructor({});
 
     assert.isDefined(o1.getUUID);
     assert.isDefined(o2.getUUID);

@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "celeste",
   "scripts": {
-    "test": "mocha --recursive tests/ --reporter dot",
-    "wtest": "mocha --recursive tests/ --reporter dot -w",
+    "test": "mocha --recursive tests/ --reporter dot --stack",
+    "wtest": "mocha --recursive tests/ --reporter dot -w --stack",
     "coverage": "istanbul cover _mocha -- --recursive tests/ --reporter dot",
     "coveralls": "istanbul cover _mocha -- --recursive tests/ --reporter dot && istanbul-coveralls --no-rm"
   },
