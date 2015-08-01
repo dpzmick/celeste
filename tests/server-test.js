@@ -9,15 +9,23 @@ var options = {
   'force new connection': true
 };
 
-var socketURL = 'ws://localhost:3000';
+var port = 3000;
+var socketURL = 'ws://localhost:' + port;
 var role = 'pilot';
 
 describe('server', function () {
-    var server = null;
+    var http = require('http').Server();
     var client = null;
 
-    before(function () {
-        server = mkserver();
+    before(function (done) {
+        mkserver(http);
+        http.listen(port, function () {
+            done();
+        });
+    });
+
+    after(function () {
+        http.close();
     });
 
     it('should accept a connection', function (done) {
@@ -79,7 +87,4 @@ describe('server', function () {
         });
     });
 
-    after(function () {
-        server.close();
-    });
 });
