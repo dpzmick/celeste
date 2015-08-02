@@ -4,7 +4,6 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
 var sinon  = require('sinon');
-var Q      = require('q');
 
 var GameError  = require('../lib/errors/game-error.js');
 
@@ -25,6 +24,42 @@ describe('Alerter', function () {
 
     alerter.registerSocketFor('pilot', pilotSocket);
     alerter.registerSocketFor('engineer', engineerSocket);
+
+    describe('sendMessageTo', function () {
+        it('sends a message to the given role', function () {
+            var message = 'cat';
+
+            var pMock = sinon.mock(pilotSocket);
+            pMock.expects('emit').once().withExactArgs('message', message);
+
+            return alerter.sendMessageTo('pilot', message).then(function () {
+                return pMock.verify();
+            });
+        });
+
+        it('should reject with GENERIC when the role is not registered', function () {
+            var message = 'who cares';
+
+            var promise = alerter.sendMessageTo('cat', message);
+            return promise.should.eventually.be.rejected.then(function (error) {
+                error.should.have.property('name').that.equals('GameError');
+                error.should.have.property('code').that.equals(GameError.codes.GENERIC);
+            });
+        });
+    });
+
+    describe('sendMessageToEveryone', function () {
+        it('sends arbitrary messages to everyone', function () {
+            var message = 'cats are the best pet';
+
+            var mock = sinon.mock(socket);
+            mock.expects('emit').once().withExactArgs('message', message);
+
+            return alerter.sendMessageToEveryone(message).then(function () {
+                return mock.verify();
+            });
+        });
+    });
 
     describe('someoneRegistered', function () {
         it('should send the correct message to everyone', function () {
