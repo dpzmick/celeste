@@ -54,7 +54,6 @@ describe('model', function () {
                 shipMock.verify();
             });
         });
-
     });
 
     describe('getInitialStateData', function () {
@@ -77,6 +76,16 @@ describe('model', function () {
 
             shipMock.verify();
             spaceMock.verify();
+        });
+    });
+
+    describe('getShip', function () {
+        it('should exist', function () {
+            model.getShip.should.be.a('function');
+        });
+
+        it('should return the right thing', function () {
+            model.getShip().should.equal(ship);
         });
     });
 });
