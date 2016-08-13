@@ -1,4 +1,0 @@
-{
-    "lib/*.js":        {"type": "src",  "alternate": "tests/{}-test.js"},
-    "tests/*-test.js": {"type": "test", "alternate": "lib/{}.js"}
-}
